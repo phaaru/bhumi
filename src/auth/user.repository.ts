@@ -33,13 +33,13 @@ export class UserRepository extends Repository<User> {
         return bcrypt.hash(password, salt);
     }
 
-    async validateUserPassword(authCredentialsDto: AuthCredentialsDto): Promise<string> {
+    async validateUserPassword(authCredentialsDto: AuthCredentialsDto): Promise<number> {
         const { mobile, password } = authCredentialsDto;
 
         const user= await this.findOne({mobile});
 
         if ( user && await user.validatePassword(password)) {
-            return user.firstname;
+            return user.mobile;
         } else {
             return null;
         }
